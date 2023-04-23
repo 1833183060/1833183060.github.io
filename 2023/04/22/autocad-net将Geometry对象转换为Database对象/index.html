@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="codeva-pm2w401tVr">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"niaoge.xyz","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.15.1","exturl":true,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364&#x2F;&#x2F;by 鸟哥 qq1833183060&#x2F;&#x2F;qq群 720924083&#x2F;&#x2F;2020-11-10using System;using System.Collecti">
+<meta property="og:type" content="article">
+<meta property="og:title" content="autocad.net将Geometry对象转换为Database对象">
+<meta property="og:url" content="https://niaoge.xyz/2023/04/22/autocad-net%E5%B0%86Geometry%E5%AF%B9%E8%B1%A1%E8%BD%AC%E6%8D%A2%E4%B8%BADatabase%E5%AF%B9%E8%B1%A1/index.html">
+<meta property="og:site_name" content="鸟哥的网站">
+<meta property="og:description" content="12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364&#x2F;&#x2F;by 鸟哥 qq1833183060&#x2F;&#x2F;qq群 720924083&#x2F;&#x2F;2020-11-10using System;using System.Collecti">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-04-22T14:03:29.000Z">
+<meta property="article:modified_time" content="2023-04-23T12:36:22.267Z">
+<meta property="article:author" content="鸟哥">
+<meta property="article:tag" content="autocad.net">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://niaoge.xyz/2023/04/22/autocad-net%E5%B0%86Geometry%E5%AF%B9%E8%B1%A1%E8%BD%AC%E6%8D%A2%E4%B8%BADatabase%E5%AF%B9%E8%B1%A1/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://niaoge.xyz/2023/04/22/autocad-net%E5%B0%86Geometry%E5%AF%B9%E8%B1%A1%E8%BD%AC%E6%8D%A2%E4%B8%BADatabase%E5%AF%B9%E8%B1%A1/","path":"2023/04/22/autocad-net将Geometry对象转换为Database对象/","title":"autocad.net将Geometry对象转换为Database对象"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>autocad.net将Geometry对象转换为Database对象 | 鸟哥的网站</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">鸟哥的网站</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-几何与cad"><a href="/cad/" rel="section"><i class="fa fa-link fa-light fa-book-blank fa-fw"></i>几何与CAD</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">鸟哥</p>
+  <div class="site-description" itemprop="description">鸟哥的网站</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://niaoge.xyz/2023/04/22/autocad-net%E5%B0%86Geometry%E5%AF%B9%E8%B1%A1%E8%BD%AC%E6%8D%A2%E4%B8%BADatabase%E5%AF%B9%E8%B1%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="鸟哥">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="鸟哥的网站">
+      <meta itemprop="description" content="鸟哥的网站">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="autocad.net将Geometry对象转换为Database对象 | 鸟哥的网站">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          autocad.net将Geometry对象转换为Database对象
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-04-22 22:03:29" itemprop="dateCreated datePublished" datetime="2023-04-22T22:03:29+08:00">2023-04-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-04-23 20:36:22" itemprop="dateModified" datetime="2023-04-23T20:36:22+08:00">2023-04-23</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//by 鸟哥 qq1833183060</span></span><br><span class="line"><span class="comment">//qq群 720924083</span></span><br><span class="line"><span class="comment">//2020-11-10</span></span><br><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> System.Linq;</span><br><span class="line"><span class="keyword">using</span> System.Text;</span><br><span class="line"><span class="keyword">using</span> System.Threading.Tasks;</span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> Autodesk.AutoCAD.DatabaseServices;</span><br><span class="line"><span class="keyword">using</span> Autodesk.AutoCAD.Runtime;</span><br><span class="line"><span class="keyword">using</span> Autodesk.AutoCAD.EditorInput;</span><br><span class="line"><span class="keyword">using</span> Autodesk.AutoCAD.ApplicationServices;</span><br><span class="line"><span class="keyword">using</span> Autodesk.AutoCAD.Windows;</span><br><span class="line"><span class="keyword">using</span> Autodesk.AutoCAD.Geometry;</span><br><span class="line"><span class="keyword">namespace</span> <span class="title">AcadDemo</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">class</span> <span class="title">OtherDemo</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> https://adndevblog.typepad.com/autocad/2012/04/converting-geometry-objects-to-database-entity.html</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">        [<span class="meta">CommandMethod(<span class="string">&quot;ge2dbnet&quot;</span>)</span>]</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Ge2DbMethod</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">             EllipticalArc3d arc1 =<span class="keyword">new</span> EllipticalArc3d(Point3d.Origin,Vector3d.XAxis,Vector3d.YAxis,<span class="number">2.0</span>, <span class="number">0.5</span>); </span><br><span class="line"></span><br><span class="line">            GetCurveObjectId(arc1);</span><br><span class="line">        &#125; </span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">static</span> ObjectId <span class="title">GetCurveObjectId</span>(<span class="params">Curve3d geCurve3d</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            Document doc  = Application.DocumentManager.MdiActiveDocument;</span><br><span class="line">            Editor ed = doc.Editor;</span><br><span class="line">            Database db = doc.Database;</span><br><span class="line"></span><br><span class="line">            ObjectId oid = ObjectId.Null;</span><br><span class="line">            <span class="keyword">try</span></span><br><span class="line">            &#123;</span><br><span class="line">                Curve dbCurve = Curve.CreateFromGeCurve(geCurve3d);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (dbCurve != <span class="literal">null</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">using</span> (Transaction tr =db.TransactionManager.StartTransaction())</span><br><span class="line">                    &#123;</span><br><span class="line">                        BlockTable bt = tr.GetObject(db.BlockTableId,OpenMode.ForRead) <span class="keyword">as</span> BlockTable;</span><br><span class="line"></span><br><span class="line">                        BlockTableRecord btr =tr.GetObject(db.CurrentSpaceId,OpenMode.ForWrite) <span class="keyword">as</span> BlockTableRecord;</span><br><span class="line">                        btr.AppendEntity(dbCurve);</span><br><span class="line">                        tr.AddNewlyCreatedDBObject(dbCurve, <span class="literal">true</span>);</span><br><span class="line">                        tr.Commit();</span><br><span class="line">                     &#125;</span><br><span class="line">                 &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">catch</span> (System.Exception ex)</span><br><span class="line">            &#123;</span><br><span class="line">                ed.WriteMessage(ex.Message);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> oid;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/autocad-net/" rel="tag"># autocad.net</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/04/22/autocad-net%E4%BD%BF%E7%94%A8Ribbon%20runtime%20API%E5%9C%A8%E5%AE%9E%E4%BD%93%E9%80%89%E6%8B%A9%E6%97%B6%E6%98%BE%E7%A4%BA%E4%B8%8A%E4%B8%8B%E6%96%87%E9%80%89%E9%A1%B9%E5%8D%A1/" rel="prev" title="autocad.net使用Ribbon runtime API在实体选择时显示上下文选项卡">
+                  <i class="fa fa-chevron-left"></i> autocad.net使用Ribbon runtime API在实体选择时显示上下文选项卡
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/04/22/autocad-net%E8%AE%A1%E7%AE%97%E5%9B%BE%E6%A1%88%E5%A1%AB%E5%85%85%E7%9A%84%E5%91%A8%E9%95%BF/" rel="next" title="autocad.net计算图案填充的周长">
+                  autocad.net计算图案填充的周长 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">鸟哥</span>
+</div>
+  <div class="powered-by">由 <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl" data-url="aHR0cHM6Ly90aGVtZS1uZXh0LmpzLm9yZy9waXNjZXMv">NexT.Pisces</span> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+  
+</body>
+</html>
