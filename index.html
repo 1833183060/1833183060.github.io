@@ -210,8 +210,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2023-04-23 18:47:29" itemprop="dateCreated datePublished" datetime="2023-04-23T18:47:29+08:00">2023-04-23</time>
+      <time title="创建时间：2023-04-23 20:47:29 / 修改时间：21:15:06" itemprop="dateCreated datePublished" datetime="2023-04-23T20:47:29+08:00">2023-04-23</time>
     </span>
 
   
@@ -224,7 +225,8 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          
+          <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//用acedCmd发送命令如何等待用户输入</span></span><br><span class="line"><span class="comment">//参考：https://adndevblog.typepad.com/autocad/2012/04/synchronously-send-and-wait-for-commands-in-autocad-using-c-net.html</span></span><br><span class="line"><span class="comment">//qq群：720924083</span></span><br><span class="line"><span class="comment">//2020-11-17</span></span><br><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> System.Linq;</span><br><span class="line"><span class="keyword">using</span> System.Text;</span><br><span class="line"><span class="keyword">using</span> System.Threading.Tasks;</span><br><span class="line"><span class="keyword">using</span> System.Runtime.InteropServices;</span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> Autodesk.AutoCAD.DatabaseServices;</span><br><span class="line"><span class="keyword">using</span> Autodesk.AutoCAD.Runtime;</span><br><span class="line"><span class="keyword">using</span> Autodesk.AutoCAD.EditorInput;</span><br><span class="line"><span class="keyword">using</span> Autodesk.AutoCAD.ApplicationServices;</span><br><span class="line"><span class="keyword">using</span> Autodesk.AutoCAD.Windows;</span><br><span class="line"><span class="keyword">namespace</span> <span class="title">AcadDemo</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SendSyncCommand</span></span><br><span class="line">    &#123;</span><br><span class="line">    <span class="comment">// call the insert command and wait until the user has finished, by Fenton Webb, DevTech</span></span><br><span class="line">    </span><br><span class="line">        [<span class="meta">DllImport(<span class="string">&quot;acad.exe&quot;</span>, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl, EntryPoint = <span class="string">&quot;acedCmd&quot;</span>)</span>]</span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">extern</span> <span class="built_in">int</span> <span class="title">acedCmd</span>(<span class="params">System.IntPtr vlist</span>)</span>;</span><br><span class="line">     </span><br><span class="line">        [<span class="meta">CommandMethod(<span class="string">&quot;Test7&quot;</span>)</span>]</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Test7</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">            ResultBuffer rb = <span class="keyword">new</span> ResultBuffer();</span><br><span class="line">            <span class="comment">// RTSTR = 5005</span></span><br><span class="line">            rb.Add(<span class="keyword">new</span> TypedValue(<span class="number">5005</span>, <span class="string">&quot;_.INSERT&quot;</span>));</span><br><span class="line">            <span class="comment">// start the insert command</span></span><br><span class="line"></span><br><span class="line">            acedCmd(rb.UnmanagedObject);</span><br><span class="line">            <span class="built_in">bool</span> quit = <span class="literal">false</span>;</span><br><span class="line">            <span class="comment">// loop round while the insert command is active</span></span><br><span class="line">            <span class="keyword">while</span> (!quit)</span><br><span class="line">            &#123;</span><br><span class="line">            <span class="comment">// see what commands are active</span></span><br><span class="line"></span><br><span class="line">                <span class="built_in">string</span> cmdNames = (<span class="built_in">string</span>)Autodesk.AutoCAD.ApplicationServices.Application.GetSystemVariable(<span class="string">&quot;CMDNAMES&quot;</span>);</span><br><span class="line"></span><br><span class="line">                <span class="comment">// if the INSERT command is active</span></span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (cmdNames.ToUpper().IndexOf(<span class="string">&quot;INSERT&quot;</span>) &gt;= <span class="number">0</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="comment">// then send a PAUSE to the command line</span></span><br><span class="line">                    rb = <span class="keyword">new</span> ResultBuffer();</span><br><span class="line">                    <span class="comment">// RTSTR = 5005 - send a user pause to the command line</span></span><br><span class="line"></span><br><span class="line">                    rb.Add(<span class="keyword">new</span> TypedValue(<span class="number">5005</span>, <span class="string">&quot;\\&quot;</span>));</span><br><span class="line"></span><br><span class="line">                    acedCmd(rb.UnmanagedObject);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                    <span class="comment">// otherwise quit</span></span><br><span class="line">                    quit = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">   </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
       
     </div>
 
@@ -440,7 +442,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-04-23 18:39:47" itemprop="dateModified" datetime="2023-04-23T18:39:47+08:00">2023-04-23</time>
+      <time title="修改时间：2023-04-23 21:11:04" itemprop="dateModified" datetime="2023-04-23T21:11:04+08:00">2023-04-23</time>
     </span>
 
   
@@ -454,6 +456,158 @@
     
     <div class="post-body" itemprop="articleBody">
           <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//by 鸟哥 qq1833183060</span></span><br><span class="line"><span class="comment">//qq群 720924083</span></span><br><span class="line"><span class="comment">//2020-11-10</span></span><br><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> System.Linq;</span><br><span class="line"><span class="keyword">using</span> System.Text;</span><br><span class="line"><span class="keyword">using</span> System.Threading.Tasks;</span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> Autodesk.AutoCAD.DatabaseServices;</span><br><span class="line"><span class="keyword">using</span> Autodesk.AutoCAD.Runtime;</span><br><span class="line"><span class="keyword">using</span> Autodesk.AutoCAD.EditorInput;</span><br><span class="line"><span class="keyword">using</span> Autodesk.AutoCAD.ApplicationServices;</span><br><span class="line"><span class="keyword">using</span> Autodesk.AutoCAD.Windows;</span><br><span class="line"><span class="keyword">using</span> Autodesk.AutoCAD.Geometry;</span><br><span class="line"><span class="keyword">namespace</span> <span class="title">AcadDemo</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">RibbonDemo</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//参考 https://adndevblog.typepad.com/autocad/2012/04/displaying-a-contextual-tab-upon-entity-selection-using-ribbon-runtime-api.html</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span>//</span></span><br><span class="line">        <span class="comment">// Use: Displays a contextual tab upon entity selection,</span></span><br><span class="line">        <span class="comment">//      using Ribbon runtime API.</span></span><br><span class="line">        <span class="comment">//</span></span><br><span class="line">        <span class="comment">// Author: Philippe Leefsma, April 2012</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span><span class="doctag">///</span>//</span></span><br><span class="line">        Autodesk.Windows.RibbonTab _ctxTab = <span class="literal">null</span>;</span><br><span class="line">        [<span class="meta">CommandMethod(<span class="string">&quot;CtxTabUponSelect&quot;</span>)</span>]</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">CtxTabUponSelect</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">            Document doc = Application.DocumentManager.MdiActiveDocument;</span><br><span class="line">            <span class="comment">//Set up event for selection changed</span></span><br><span class="line"></span><br><span class="line">            doc.ImpliedSelectionChanged +=<span class="keyword">new</span> EventHandler(doc_ImpliedSelectionChanged);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">doc_ImpliedSelectionChanged</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            Document doc = Application.DocumentManager.MdiActiveDocument;</span><br><span class="line"></span><br><span class="line">            PromptSelectionResult psr = doc.Editor.SelectImplied();</span><br><span class="line">            <span class="comment">//if no entities are selected, we hide our context tab</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (psr.Value == <span class="literal">null</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                HideTab();</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//In this example we only display the tab if only circles are</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">// selected. You may want to change this condition of course.</span></span><br><span class="line">            <span class="keyword">foreach</span> (SelectedObject selObj <span class="keyword">in</span> psr.Value)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (selObj.ObjectId.ObjectClass.DxfName.ToLower()!= <span class="string">&quot;circle&quot;</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    HideTab();</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//We will use the Application.Idle event to safely display our tab</span></span><br><span class="line">            <span class="keyword">if</span> (_ctxTab == <span class="literal">null</span> || !_ctxTab.IsVisible)</span><br><span class="line">            &#123;</span><br><span class="line">                Autodesk.AutoCAD.ApplicationServices.Application.Idle +=<span class="keyword">new</span> EventHandler(OnIdle);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">OnIdle</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//Make sure ribbon manager is available</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (Autodesk.Windows.ComponentManager.Ribbon != <span class="literal">null</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">//Create tab if it doesn&#x27;t exist</span></span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (_ctxTab == <span class="literal">null</span>)</span><br><span class="line">                    CreateCtxTab();</span><br><span class="line"></span><br><span class="line">                <span class="comment">//Otherwise make it visible</span></span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (!_ctxTab.IsVisible)</span><br><span class="line">                &#123;</span><br><span class="line">                    Autodesk.Windows.RibbonControl ribbonCtrl =Autodesk.Windows.ComponentManager.Ribbon;</span><br><span class="line"></span><br><span class="line">                    ribbonCtrl.ShowContextualTab(_ctxTab, <span class="literal">false</span>, <span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line">                    _ctxTab.IsActive = <span class="literal">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (!_ctxTab.IsActive)</span><br><span class="line">                    _ctxTab.IsActive = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//Tab creation method</span></span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">CreateCtxTab</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">            Autodesk.Windows.RibbonControl ribbonCtrl =Autodesk.Windows.ComponentManager.Ribbon;</span><br><span class="line"></span><br><span class="line">            _ctxTab = <span class="keyword">new</span> Autodesk.Windows.RibbonTab();</span><br><span class="line"></span><br><span class="line">            _ctxTab.Name = <span class="string">&quot;MyTab&quot;</span>;</span><br><span class="line"></span><br><span class="line">            _ctxTab.Id = <span class="string">&quot;MY_CTX_TAB_ID&quot;</span>;</span><br><span class="line"></span><br><span class="line">            _ctxTab.IsVisible = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">            _ctxTab.Title = _ctxTab.Name;</span><br><span class="line"></span><br><span class="line">            _ctxTab.IsContextualTab = <span class="literal">true</span>;</span><br><span class="line">            ribbonCtrl.Tabs.Add(_ctxTab);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">HideTab</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">            Autodesk.AutoCAD.ApplicationServices.Application.Idle-= <span class="keyword">new</span> EventHandler(OnIdle);</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> (_ctxTab != <span class="literal">null</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                Autodesk.Windows.RibbonControl ribbonCtrl=Autodesk.Windows.ComponentManager.Ribbon;</span><br><span class="line"></span><br><span class="line">                ribbonCtrl.HideContextualTab(_ctxTab);</span><br><span class="line"></span><br><span class="line">                _ctxTab.IsVisible = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">                _ctxTab = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://niaoge.xyz/2023/04/22/%E5%9C%A8autocad-NET%E4%B8%AD%E4%BD%BF%E7%94%A8Point3AngularDimension%E5%88%9B%E5%BB%BA3%E7%82%B9%E8%A7%92%E5%BA%A6%E6%A0%87%E6%B3%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="鸟哥">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="鸟哥的网站">
+      <meta itemprop="description" content="鸟哥的网站">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 鸟哥的网站">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/04/22/%E5%9C%A8autocad-NET%E4%B8%AD%E4%BD%BF%E7%94%A8Point3AngularDimension%E5%88%9B%E5%BB%BA3%E7%82%B9%E8%A7%92%E5%BA%A6%E6%A0%87%E6%B3%A8/" class="post-title-link" itemprop="url">在autocad.NET中使用Point3AngularDimension创建3点角度标注</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-04-22 21:42:33" itemprop="dateCreated datePublished" datetime="2023-04-22T21:42:33+08:00">2023-04-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-04-23 21:14:29" itemprop="dateModified" datetime="2023-04-23T21:14:29+08:00">2023-04-23</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//by 鸟哥 qq1833183060</span></span><br><span class="line"><span class="comment">//qq群 720924083</span></span><br><span class="line"><span class="comment">//2020-11-09</span></span><br><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> System.Linq;</span><br><span class="line"><span class="keyword">using</span> System.Text;</span><br><span class="line"><span class="keyword">using</span> System.Threading.Tasks;</span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> Autodesk.AutoCAD.DatabaseServices;</span><br><span class="line"><span class="keyword">using</span> Autodesk.AutoCAD.Runtime;</span><br><span class="line"><span class="keyword">using</span> Autodesk.AutoCAD.EditorInput;</span><br><span class="line"><span class="keyword">using</span> Autodesk.AutoCAD.ApplicationServices;</span><br><span class="line"><span class="keyword">using</span> Autodesk.AutoCAD.Windows;</span><br><span class="line"><span class="keyword">using</span> Autodesk.AutoCAD.Geometry;</span><br><span class="line"><span class="keyword">namespace</span> <span class="title">AcadDemo</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">DimensionDemo</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//https://adndevblog.typepad.com/autocad/2012/04/creating-a-3-point-angular-dimension-using-point3angulardimension-in-net.html</span></span><br><span class="line">        [<span class="meta">CommandMethod(<span class="string">&quot;netDimAngular&quot;</span>)</span>]</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">netDimAngular</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">            Document doc = Application.DocumentManager.MdiActiveDocument;</span><br><span class="line">            Database db = doc.Database;</span><br><span class="line">            Editor ed = doc.Editor;</span><br><span class="line"></span><br><span class="line">            PromptEntityOptions peo = <span class="keyword">new</span> PromptEntityOptions(<span class="string">&quot;\nSelect an Arc: &quot;</span>);</span><br><span class="line"></span><br><span class="line">            peo.SetRejectMessage(<span class="string">&quot;\nMust be an Arc...&quot;</span>);</span><br><span class="line"></span><br><span class="line">            peo.AddAllowedClass(<span class="keyword">typeof</span>(Arc), <span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line">            PromptEntityResult per = ed.GetEntity(peo);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (per.Status != PromptStatus.OK)</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">using</span> (Transaction Tx =db.TransactionManager.StartTransaction())</span><br><span class="line">            &#123;</span><br><span class="line">                Arc arc = Tx.GetObject(per.ObjectId, OpenMode.ForRead) <span class="keyword">as</span> Arc;</span><br><span class="line"></span><br><span class="line">                BlockTable bt = Tx.GetObject(db.BlockTableId,OpenMode.ForRead) <span class="keyword">as</span> BlockTable;</span><br><span class="line"></span><br><span class="line">                BlockTableRecord btr = Tx.GetObject(bt[BlockTableRecord.ModelSpace],OpenMode.ForWrite) <span class="keyword">as</span> BlockTableRecord;</span><br><span class="line"></span><br><span class="line">                <span class="built_in">string</span> dimStyle = <span class="string">&quot;Standard&quot;</span>;</span><br><span class="line"></span><br><span class="line">                DimStyleTable dimStyleTable = Tx.GetObject(db.DimStyleTableId,OpenMode.ForRead) <span class="keyword">as</span> DimStyleTable;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (dimStyleTable.Has(dimStyle))</span><br><span class="line">                &#123;</span><br><span class="line">                    Point3d point3 =arc.StartPoint.Add(arc.EndPoint.GetAsVector()).MultiplyBy(<span class="number">0.5</span>);</span><br><span class="line"></span><br><span class="line">                    ObjectId dimStyleId = dimStyleTable[dimStyle];</span><br><span class="line"></span><br><span class="line">                    Point3AngularDimension dim = <span class="keyword">new</span> Point3AngularDimension(arc.Center,arc.StartPoint,arc.EndPoint,point3, <span class="string">&quot;&quot;</span>,dimStyleId);</span><br><span class="line"></span><br><span class="line">                    btr.AppendEntity(dim);</span><br><span class="line"></span><br><span class="line">                    Tx.AddNewlyCreatedDBObject(dim, <span class="literal">true</span>);</span><br><span class="line">                    Tx.Commit();</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://niaoge.xyz/2023/04/22/autocad-net%E4%BF%AE%E6%94%B9SCREENSIZE%E7%9A%84%E5%80%BC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="鸟哥">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="鸟哥的网站">
+      <meta itemprop="description" content="鸟哥的网站">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 鸟哥的网站">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/04/22/autocad-net%E4%BF%AE%E6%94%B9SCREENSIZE%E7%9A%84%E5%80%BC/" class="post-title-link" itemprop="url">autocad.net修改SCREENSIZE的值</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-04-22 21:41:07" itemprop="dateCreated datePublished" datetime="2023-04-22T21:41:07+08:00">2023-04-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-04-23 21:14:47" itemprop="dateModified" datetime="2023-04-23T21:14:47+08:00">2023-04-23</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//by 鸟哥 qq1833183060</span></span><br><span class="line"><span class="comment">//qq群 720924083</span></span><br><span class="line"><span class="comment">//2020-11-07</span></span><br><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> System.Linq;</span><br><span class="line"><span class="keyword">using</span> System.Text;</span><br><span class="line"><span class="keyword">using</span> System.Threading.Tasks;</span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> Autodesk.AutoCAD.DatabaseServices;</span><br><span class="line"><span class="keyword">using</span> Autodesk.AutoCAD.Runtime;</span><br><span class="line"><span class="keyword">using</span> Autodesk.AutoCAD.EditorInput;</span><br><span class="line"><span class="keyword">using</span> Autodesk.AutoCAD.ApplicationServices;</span><br><span class="line"><span class="keyword">using</span> Autodesk.AutoCAD.Windows;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">adndevblog</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ScreenDemo</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//参考自https://adndevblog.typepad.com/autocad/2012/03/control-the-autocad-screensize-environment-variable-in-autocad-using-net.html</span></span><br><span class="line">        <span class="comment">//系统变量SCREENSIZE是只读的，此方法可用于修改SCREENSIZE的值</span></span><br><span class="line">        [<span class="meta">CommandMethod(<span class="string">&quot;ChangeScreenSize&quot;</span>)</span>]</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">changeScreenSize</span>()</span>&#123;</span><br><span class="line"></span><br><span class="line">            Document doc = Application.DocumentManager.MdiActiveDocument;</span><br><span class="line"></span><br><span class="line">            Autodesk.AutoCAD.Windows.Window docWindow = doc.Window;</span><br><span class="line"></span><br><span class="line">            System.Drawing.Size size = docWindow.GetSize();</span><br><span class="line"></span><br><span class="line">            Editor ed = doc.Editor;</span><br><span class="line"></span><br><span class="line">            ed.WriteMessage(<span class="string">&quot;\nDocument Size:\n&quot;</span> +size.ToString() + <span class="string">&quot;\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">            docWindow.WindowState = Window.State.Normal;</span><br><span class="line"></span><br><span class="line">            docWindow.SetSize(<span class="keyword">new</span> System.Drawing.Size(<span class="number">500</span>, <span class="number">500</span>));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -508,9 +662,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2023-04-22 18:58:40 / 修改时间：18:59:00" itemprop="dateCreated datePublished" datetime="2023-04-22T18:58:40+08:00">2023-04-22</time>
+      <time title="创建时间：2023-04-22 18:58:40" itemprop="dateCreated datePublished" datetime="2023-04-22T18:58:40+08:00">2023-04-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-04-23 21:13:47" itemprop="dateModified" datetime="2023-04-23T21:13:47+08:00">2023-04-23</time>
     </span>
 
   
@@ -600,158 +760,6 @@
     
     <div class="post-body" itemprop="articleBody">
           <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//by 鸟哥 qq1833183060</span></span><br><span class="line"><span class="comment">//qq群 720924083</span></span><br><span class="line"><span class="comment">//2020-11-09</span></span><br><span class="line"></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> 创建尺寸样式并置为当前</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> 参考 https://adndevblog.typepad.com/autocad/2012/04/creating-a-new-dimension-style-and-make-it-as-current.html</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">        [<span class="meta">CommandMethod(<span class="string">&quot;NewDimStyle&quot;</span>)</span>]</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">NewDimStyle</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">            Database db =Application.DocumentManager.MdiActiveDocument.Database;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">using</span> (Transaction trans =db.TransactionManager.StartTransaction())</span><br><span class="line">            &#123;</span><br><span class="line">                DimStyleTable DimTabb =(DimStyleTable)trans.GetObject(db.DimStyleTableId,OpenMode.ForRead);</span><br><span class="line"></span><br><span class="line">                ObjectId dimId = ObjectId.Null;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (!DimTabb.Has(<span class="string">&quot;Test&quot;</span>))</span><br><span class="line">                &#123;</span><br><span class="line">                    DimTabb.UpgradeOpen();</span><br><span class="line"></span><br><span class="line">                    DimStyleTableRecord newRecord =<span class="keyword">new</span> DimStyleTableRecord();</span><br><span class="line"></span><br><span class="line">                    newRecord.Name = <span class="string">&quot;Test&quot;</span>;</span><br><span class="line"></span><br><span class="line">                    dimId = DimTabb.Add(newRecord);</span><br><span class="line"></span><br><span class="line">                    trans.AddNewlyCreatedDBObject(newRecord, <span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                &#123;</span><br><span class="line">                    dimId = DimTabb[<span class="string">&quot;Test&quot;</span>];</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                DimStyleTableRecord DimTabbRecaord =(DimStyleTableRecord)trans.GetObject(dimId,OpenMode.ForRead);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (DimTabbRecaord.ObjectId != db.Dimstyle)</span><br><span class="line">                &#123;</span><br><span class="line">                    db.Dimstyle = DimTabbRecaord.ObjectId;</span><br><span class="line">                    db.SetDimstyleData(DimTabbRecaord);</span><br><span class="line">                &#125;</span><br><span class="line">                trans.Commit();</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://niaoge.xyz/2023/04/22/%E5%9C%A8autocad-NET%E4%B8%AD%E4%BD%BF%E7%94%A8Point3AngularDimension%E5%88%9B%E5%BB%BA3%E7%82%B9%E8%A7%92%E5%BA%A6%E6%A0%87%E6%B3%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="鸟哥">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="鸟哥的网站">
-      <meta itemprop="description" content="鸟哥的网站">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 鸟哥的网站">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/04/22/%E5%9C%A8autocad-NET%E4%B8%AD%E4%BD%BF%E7%94%A8Point3AngularDimension%E5%88%9B%E5%BB%BA3%E7%82%B9%E8%A7%92%E5%BA%A6%E6%A0%87%E6%B3%A8/" class="post-title-link" itemprop="url">在autocad.NET中使用Point3AngularDimension创建3点角度标注</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2023-04-22 16:42:33" itemprop="dateCreated datePublished" datetime="2023-04-22T16:42:33+08:00">2023-04-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-04-23 20:36:10" itemprop="dateModified" datetime="2023-04-23T20:36:10+08:00">2023-04-23</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//by 鸟哥 qq1833183060</span></span><br><span class="line"><span class="comment">//qq群 720924083</span></span><br><span class="line"><span class="comment">//2020-11-09</span></span><br><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> System.Linq;</span><br><span class="line"><span class="keyword">using</span> System.Text;</span><br><span class="line"><span class="keyword">using</span> System.Threading.Tasks;</span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> Autodesk.AutoCAD.DatabaseServices;</span><br><span class="line"><span class="keyword">using</span> Autodesk.AutoCAD.Runtime;</span><br><span class="line"><span class="keyword">using</span> Autodesk.AutoCAD.EditorInput;</span><br><span class="line"><span class="keyword">using</span> Autodesk.AutoCAD.ApplicationServices;</span><br><span class="line"><span class="keyword">using</span> Autodesk.AutoCAD.Windows;</span><br><span class="line"><span class="keyword">using</span> Autodesk.AutoCAD.Geometry;</span><br><span class="line"><span class="keyword">namespace</span> <span class="title">AcadDemo</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">DimensionDemo</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//https://adndevblog.typepad.com/autocad/2012/04/creating-a-3-point-angular-dimension-using-point3angulardimension-in-net.html</span></span><br><span class="line">        [<span class="meta">CommandMethod(<span class="string">&quot;netDimAngular&quot;</span>)</span>]</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">netDimAngular</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">            Document doc = Application.DocumentManager.MdiActiveDocument;</span><br><span class="line">            Database db = doc.Database;</span><br><span class="line">            Editor ed = doc.Editor;</span><br><span class="line"></span><br><span class="line">            PromptEntityOptions peo = <span class="keyword">new</span> PromptEntityOptions(<span class="string">&quot;\nSelect an Arc: &quot;</span>);</span><br><span class="line"></span><br><span class="line">            peo.SetRejectMessage(<span class="string">&quot;\nMust be an Arc...&quot;</span>);</span><br><span class="line"></span><br><span class="line">            peo.AddAllowedClass(<span class="keyword">typeof</span>(Arc), <span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line">            PromptEntityResult per = ed.GetEntity(peo);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (per.Status != PromptStatus.OK)</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">using</span> (Transaction Tx =db.TransactionManager.StartTransaction())</span><br><span class="line">            &#123;</span><br><span class="line">                Arc arc = Tx.GetObject(per.ObjectId, OpenMode.ForRead) <span class="keyword">as</span> Arc;</span><br><span class="line"></span><br><span class="line">                BlockTable bt = Tx.GetObject(db.BlockTableId,OpenMode.ForRead) <span class="keyword">as</span> BlockTable;</span><br><span class="line"></span><br><span class="line">                BlockTableRecord btr = Tx.GetObject(bt[BlockTableRecord.ModelSpace],OpenMode.ForWrite) <span class="keyword">as</span> BlockTableRecord;</span><br><span class="line"></span><br><span class="line">                <span class="built_in">string</span> dimStyle = <span class="string">&quot;Standard&quot;</span>;</span><br><span class="line"></span><br><span class="line">                DimStyleTable dimStyleTable = Tx.GetObject(db.DimStyleTableId,OpenMode.ForRead) <span class="keyword">as</span> DimStyleTable;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (dimStyleTable.Has(dimStyle))</span><br><span class="line">                &#123;</span><br><span class="line">                    Point3d point3 =arc.StartPoint.Add(arc.EndPoint.GetAsVector()).MultiplyBy(<span class="number">0.5</span>);</span><br><span class="line"></span><br><span class="line">                    ObjectId dimStyleId = dimStyleTable[dimStyle];</span><br><span class="line"></span><br><span class="line">                    Point3AngularDimension dim = <span class="keyword">new</span> Point3AngularDimension(arc.Center,arc.StartPoint,arc.EndPoint,point3, <span class="string">&quot;&quot;</span>,dimStyleId);</span><br><span class="line"></span><br><span class="line">                    btr.AppendEntity(dim);</span><br><span class="line"></span><br><span class="line">                    Tx.AddNewlyCreatedDBObject(dim, <span class="literal">true</span>);</span><br><span class="line">                    Tx.Commit();</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://niaoge.xyz/2023/04/22/autocad-net%E4%BF%AE%E6%94%B9SCREENSIZE%E7%9A%84%E5%80%BC/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="鸟哥">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="鸟哥的网站">
-      <meta itemprop="description" content="鸟哥的网站">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 鸟哥的网站">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/04/22/autocad-net%E4%BF%AE%E6%94%B9SCREENSIZE%E7%9A%84%E5%80%BC/" class="post-title-link" itemprop="url">autocad.net修改SCREENSIZE的值</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2023-04-22 16:41:07" itemprop="dateCreated datePublished" datetime="2023-04-22T16:41:07+08:00">2023-04-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-04-23 20:41:30" itemprop="dateModified" datetime="2023-04-23T20:41:30+08:00">2023-04-23</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//by 鸟哥 qq1833183060</span></span><br><span class="line"><span class="comment">//qq群 720924083</span></span><br><span class="line"><span class="comment">//2020-11-07</span></span><br><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> System.Linq;</span><br><span class="line"><span class="keyword">using</span> System.Text;</span><br><span class="line"><span class="keyword">using</span> System.Threading.Tasks;</span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> Autodesk.AutoCAD.DatabaseServices;</span><br><span class="line"><span class="keyword">using</span> Autodesk.AutoCAD.Runtime;</span><br><span class="line"><span class="keyword">using</span> Autodesk.AutoCAD.EditorInput;</span><br><span class="line"><span class="keyword">using</span> Autodesk.AutoCAD.ApplicationServices;</span><br><span class="line"><span class="keyword">using</span> Autodesk.AutoCAD.Windows;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">adndevblog</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ScreenDemo</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//参考自https://adndevblog.typepad.com/autocad/2012/03/control-the-autocad-screensize-environment-variable-in-autocad-using-net.html</span></span><br><span class="line">        <span class="comment">//系统变量SCREENSIZE是只读的，此方法可用于修改SCREENSIZE的值</span></span><br><span class="line">        [<span class="meta">CommandMethod(<span class="string">&quot;ChangeScreenSize&quot;</span>)</span>]</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">changeScreenSize</span>()</span>&#123;</span><br><span class="line"></span><br><span class="line">            Document doc = Application.DocumentManager.MdiActiveDocument;</span><br><span class="line"></span><br><span class="line">            Autodesk.AutoCAD.Windows.Window docWindow = doc.Window;</span><br><span class="line"></span><br><span class="line">            System.Drawing.Size size = docWindow.GetSize();</span><br><span class="line"></span><br><span class="line">            Editor ed = doc.Editor;</span><br><span class="line"></span><br><span class="line">            ed.WriteMessage(<span class="string">&quot;\nDocument Size:\n&quot;</span> +size.ToString() + <span class="string">&quot;\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">            docWindow.WindowState = Window.State.Normal;</span><br><span class="line"></span><br><span class="line">            docWindow.SetSize(<span class="keyword">new</span> System.Drawing.Size(<span class="number">500</span>, <span class="number">500</span>));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
       
     </div>
